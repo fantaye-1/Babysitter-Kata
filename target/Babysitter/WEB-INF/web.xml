@@ -1,0 +1,27 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>KaraServelet</servlet-name>
+  	<display-name>KaraServelet</display-name>
+  	<description></description>
+  	<servlet-class>ab.projects.ohioHealth.servlet.KaraServelet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>KaraServelets</servlet-name>
+  	<display-name>KaraServelets</display-name>
+  	<description></description>
+  	<servlet-class>ab.Projects.OhioHealth.servelat.KaraServelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>KaraServelet</servlet-name>
+  	<url-pattern>/KaraServelet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>KaraServelets</servlet-name>
+  	<url-pattern>/KaraServelets</url-pattern>
+  </servlet-mapping>
+</web-app>
