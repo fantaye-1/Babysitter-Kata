@@ -1,51 +1,73 @@
 package ab.Projects.OhioHealth.servelat;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ab.Projects.OhioHealth.kara.KataMain;
 
 /**
  * Servlet implementation class KaraServelet
  */
 @WebServlet("/KaraServlet")
 public class KaraServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+	private static final long serialVersionUID = 1L;      
+    
     public KaraServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+        super();       
+    }	
 
-	
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		response.getWriter().append("Served at: ").append(request.getContextPath());		
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
-		System.out.println("dopost entered");
-		String yourName = request.getParameter("yourName");
+		
+		String startTimeAmPm = request.getParameter("inputStartAmPm");
+		int startTime = toMilitaryTime(request.getParameter("inputStartTime"),startTimeAmPm);
+		String bedTimeAmPm = request.getParameter("inputBedtimeAmPm");
+		int bedTime = toMilitaryTime(request.getParameter("inputBedtime"),bedTimeAmPm);
+		String endTimeAmPm = request.getParameter("inputEndAmPm");
+		int endTime = toMilitaryTime(request.getParameter("inputEndTime"),endTimeAmPm);
+		
 		PrintWriter writer = response.getWriter();
-		writer.println("<h1>Hello " + yourName + "</h1>");
+		
+		if(KataMain.isStartTime(startTime)=="") {
+			if(KataMain.isBedTime(startTime,bedTime) == "") {
+				if(KataMain.isEndTime(startTime,bedTime,endTime) == "") {
+					
+					int payment = KataMain.calculatePayment(startTime,bedTime,endTime);
+					writer.println("<h1>payment: " + payment + "</h1>");	
+					
+				}else {
+					writer.println("<h1> Error: " + KataMain.isEndTime(startTime,bedTime,endTime)  + "</h1>");
+				}
+			}else {
+				writer.println("<h1> Error: " + KataMain.isBedTime(startTime,bedTime) + "</h1>");
+			}
+		}else {			
+			writer.println("<h1> Error: " + KataMain.isStartTime(startTime) + "</h1>");
+		}
 		writer.close();
 	}
-
+	
+	//write test case
+	//write readme file with how to run the program.
+	
+    public static int toMilitaryTime(String time , String amPm) {
+    	int hour = Integer.parseInt(time);
+    	if(amPm == "PM") {
+    		if(hour < 12) {
+    			hour += 12;
+    		}
+    	}else {// if AM
+    		if(hour==12) {
+    			hour +=12;
+    		}
+    	}    	
+    	return hour;
+    }
 }
