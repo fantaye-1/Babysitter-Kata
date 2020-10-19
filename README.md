@@ -35,7 +35,7 @@ All the packages and third party Libray are in the pom file so no need download 
  * Run as > run on server > Finsh > Ok
  * That will open a web page with http://localhost:8080/Babysitter/
 
-3 Alternatively,  CLI and If you have maven installed in your matchin,
+3 Alternatively,  CLI and If you have maven installed in your computor,
 Make sure to be in the project root directory that contain pom file.
 * run the command:
 >mvn projectname
