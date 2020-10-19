@@ -12,10 +12,10 @@ import ab.Projects.OhioHealth.kara.KataMain;
  * Servlet implementation class KaraServelet
  */
 @WebServlet("/KaraServlet")
-public class KaraServlet extends HttpServlet {
+public class KataServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;      
     
-    public KaraServlet() {
+    public KataServlet() {
         super();       
     }	
 

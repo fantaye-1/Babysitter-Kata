@@ -41,8 +41,9 @@
 	   <form action="KaraServlet" method="post">	       
 		  <div class="form-row">	  
 		    <div class="form-group col-md-3">
-		      <label for="inputStartTime">Start Time</label>
-		      <input type="text" class="form-control" id="inputStartTime" name="inputStartTime">
+		      <label for="inputStartTime">Start Time (hour)</label>
+		      <input type="number" class="form-control" class="form-control is-invalid" id="inputStartTime" name="inputStartTime" min=1 max=12>
+		       
 		    </div>
 		    <div class="form-group col-md-1">
 		      <label for="inputStartAmPm">AM/PM </label> 
@@ -56,8 +57,8 @@
 		  
 		  <div class="form-row">	  
 		    <div class="form-group col-md-3">
-		      <label for="inputBedtime">Bedtime Time</label>
-		      <input type="text" class="form-control" id="inputBedtime" name="inputBedtime">
+		      <label for="inputBedtime">Bedtime Time (hour)</label>
+		      <input type="number" class="form-control" class="form-control is-invalid" id="inputBedtime" name="inputBedtime" min=1 max=12>
 		    </div>
 		    <div class="form-group col-md-1">
 		      <label for="inputBedtimeAmPm">AM/PM </label> 
@@ -70,8 +71,8 @@
 		  </div>
 		  <div class="form-row">	  
 		    <div class="form-group col-md-3">
-		      <label for="inputEndTime">End Time</label>
-		      <input type="text" class="form-control" id="inputEndTime" name="inputEndTime">
+		      <label for="inputEndTime">End Time (hour)</label>
+		      <input type="number" class="form-control" class="form-control is-invalid" id="inputEndTime" name="inputEndTime" min=1 max=12>
 		    </div>
 		    <div class="form-group col-md-1">
 		      <label for="inputEndAmPm">AM/PM </label> 
@@ -79,21 +80,13 @@
 		        <option selected>AM</option>
 		        <option>PM</option>
 		      </select>
-		    </div>  
-		      
+		    </div>  		      
 		  </div>
-		 
+
 		  <button type="submit" class="btn btn-primary">Calculate</button>
 	</form>
 	   
-	  <!-- <p> you can also login </p>
-	   <button type="button" class="btn btn-primary btn-lg">Login/logout</button>
-		 <form action="KaraServlet" method="post">
-		
-		     Enter your name: <input type="text" name="yourName" size="20">
-		    <input type="submit" value="Call Servlet" />
-		    
-	    </form> -->
+	 
 	</div>
 	   
 </body>

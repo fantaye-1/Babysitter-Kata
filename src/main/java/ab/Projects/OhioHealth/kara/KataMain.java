@@ -46,7 +46,6 @@
 		}	
 		
 		public static int calculatePayment(int startTime, int bedTime, int endTime) {
-			System.out.println(startTime + "  " + bedTime + " "+ endTime);
 			int payment = 0;			
 
 				payment = (bedTime - startTime)*12;
