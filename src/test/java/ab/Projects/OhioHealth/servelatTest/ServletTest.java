@@ -12,3 +12,6 @@ public class ServletTest {
 	}
 
 }
+
+//write test case
+//write readme file with how to run the program.

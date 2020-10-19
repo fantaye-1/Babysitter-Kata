@@ -27,47 +27,44 @@ public class KaraServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String startTimeAmPm = request.getParameter("inputStartAmPm");
-		int startTime = toMilitaryTime(request.getParameter("inputStartTime"),startTimeAmPm);
+		int startTime  = Integer.parseInt(request.getParameter("inputStartTime"));
+		
 		String bedTimeAmPm = request.getParameter("inputBedtimeAmPm");
-		int bedTime = toMilitaryTime(request.getParameter("inputBedtime"),bedTimeAmPm);
+		int bedTime = Integer.parseInt(request.getParameter("inputBedtime"));
+		
 		String endTimeAmPm = request.getParameter("inputEndAmPm");
-		int endTime = toMilitaryTime(request.getParameter("inputEndTime"),endTimeAmPm);
+		int endTime = Integer.parseInt(request.getParameter("inputEndTime"));
 		
 		PrintWriter writer = response.getWriter();
 		
-		if(KataMain.isStartTime(startTime)=="") {
-			if(KataMain.isBedTime(startTime,bedTime) == "") {
-				if(KataMain.isEndTime(startTime,bedTime,endTime) == "") {
+		if(KataMain.isStartTime(startTime,startTimeAmPm)=="") {
+			if(KataMain.isBedTime(bedTime,bedTimeAmPm) == "" && KataMain.isTheEventSequencingCorrect(startTime,startTimeAmPm,bedTime,bedTimeAmPm)) {
+				if(KataMain.isEndTime(endTime,endTimeAmPm) == "" && KataMain.isTheEventSequencingCorrect(bedTime,bedTimeAmPm,endTime,endTimeAmPm)) {
 					
-					int payment = KataMain.calculatePayment(startTime,bedTime,endTime);
-					writer.println("<h1>payment: " + payment + "</h1>");	
+					int payment = KataMain.calculatePayment(toMilitaryTime(startTime,startTimeAmPm), toMilitaryTime( bedTime,bedTimeAmPm) , toMilitaryTime(endTime,endTimeAmPm));
+					
+					writer.println("<h1> payment: " + payment + "</h1>");	
 					
 				}else {
-					writer.println("<h1> Error: " + KataMain.isEndTime(startTime,bedTime,endTime)  + "</h1>");
+					writer.println("<h1> Error on end time: " + KataMain.isEndTime(endTime,endTimeAmPm)  + "</h1>");
 				}
 			}else {
-				writer.println("<h1> Error: " + KataMain.isBedTime(startTime,bedTime) + "</h1>");
+				writer.println("<h1> Error on bed time: " + KataMain.isBedTime(bedTime,bedTimeAmPm) + "</h1>");
 			}
 		}else {			
-			writer.println("<h1> Error: " + KataMain.isStartTime(startTime) + "</h1>");
+			writer.println("<h1> Error on start time : " + KataMain.isStartTime(startTime,startTimeAmPm) + "</h1>");
 		}
 		writer.close();
-	}
-	
-	//write test case
-	//write readme file with how to run the program.
-	
-    public static int toMilitaryTime(String time , String amPm) {
-    	int hour = Integer.parseInt(time);
-    	if(amPm == "PM") {
-    		if(hour < 12) {
+	}	
+
+	public static int toMilitaryTime(int hour , String amPm) {    	
+    	if(amPm.equals("AM")){
+    		if(hour < 5) {
     			hour += 12;
     		}
-    	}else {// if AM
-    		if(hour==12) {
-    			hour +=12;
-    		}
-    	}    	
+    	}   	
     	return hour;
     }
+	
+    
 }
