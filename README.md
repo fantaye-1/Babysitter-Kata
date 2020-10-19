@@ -4,7 +4,7 @@
 This project focuses on a simple payment calculator for a babysitter working and getting paid for one night. 
 Link on Heroku:- https://whispering-refuge-96521.herokuapp.com/
 
-#Background
+# Background
 This kata simulates a babysitter working and getting paid for one night. The rules are pretty straight forward.
 
 The babysitter:
