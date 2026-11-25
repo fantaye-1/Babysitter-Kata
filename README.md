@@ -35,14 +35,11 @@ All the packages and third party Libray are in the pom file so no need download 
  * Run as > run on server > Finsh > Ok
  * That will open a web page with http://localhost:8080/Babysitter/
 
-3 Alternatively,  CLI and If you have maven installed in your computor,
-Make sure to be in the project root directory that contain pom file.
-* run the command:
->mvn projectname
-This will create and install all the dependency and It clean and build the project,
-* run the command:
-> mvn install
-This will also generate a jar file with all the dependencies which we will run once it has been created. 
+3, From the command line (Java 17 and Maven 3.6+):
+* `mvn verify` compiles the code, runs the JUnit 5 tests and builds `target/Babysitter.war`.
+* Deploy `target/Babysitter.war` to a Tomcat 9 server and open http://localhost:8080/Babysitter/
+
+GitHub Actions runs `mvn -B verify` on Java 17 for every push to master and every pull request.
 
 ### Important files
 
