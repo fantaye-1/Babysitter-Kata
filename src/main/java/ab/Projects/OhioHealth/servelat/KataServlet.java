@@ -27,29 +27,38 @@ public class KataServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String startTimeAmPm = request.getParameter("inputStartAmPm");
-		int startTime  = Integer.parseInt(request.getParameter("inputStartTime"));
-		
 		String bedTimeAmPm = request.getParameter("inputBedtimeAmPm");
-		int bedTime = Integer.parseInt(request.getParameter("inputBedtime"));
-		
 		String endTimeAmPm = request.getParameter("inputEndAmPm");
-		int endTime = Integer.parseInt(request.getParameter("inputEndTime"));
 		
 		PrintWriter writer = response.getWriter();
 		
-		if(KataMain.isStartTime(startTime,startTimeAmPm)=="") {
-			if(KataMain.isBedTime(bedTime,bedTimeAmPm) == "" && KataMain.isTheEventSequencingCorrect(startTime,startTimeAmPm,bedTime,bedTimeAmPm)) {
-				if(KataMain.isEndTime(endTime,endTimeAmPm) == "" && KataMain.isTheEventSequencingCorrect(bedTime,bedTimeAmPm,endTime,endTimeAmPm)) {
+		int startTime;
+		int bedTime;
+		int endTime;
+		try {
+			startTime = Integer.parseInt(request.getParameter("inputStartTime"));
+			bedTime = Integer.parseInt(request.getParameter("inputBedtime"));
+			endTime = Integer.parseInt(request.getParameter("inputEndTime"));
+		} catch (NumberFormatException e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			writer.println("<h1> Please enter start, bed and end hours (1-12).</h1>");
+			writer.close();
+			return;
+		}
+		
+		if(KataMain.isStartTime(startTime,startTimeAmPm).isEmpty()) {
+			if(KataMain.isBedTime(bedTime,bedTimeAmPm).isEmpty() && KataMain.isTheEventSequencingCorrect(startTime,startTimeAmPm,bedTime,bedTimeAmPm)) {
+				if(KataMain.isEndTime(endTime,endTimeAmPm).isEmpty() && KataMain.isTheEventSequencingCorrect(bedTime,bedTimeAmPm,endTime,endTimeAmPm)) {
 					
 					int payment = KataMain.calculatePayment(toMilitaryTime(startTime,startTimeAmPm), toMilitaryTime( bedTime,bedTimeAmPm) , toMilitaryTime(endTime,endTimeAmPm));
 					
 					writer.println("<h1> payment: " + payment + "</h1>");	
 					
 				}else {
-					writer.println("<h1> Error on end time: " + KataMain.isEndTime(endTime,endTimeAmPm)  + "</h1>");
+					writer.println("<h1> Error on end time: " + errorOrSequence(KataMain.isEndTime(endTime,endTimeAmPm), "end time must be after bedtime") + "</h1>");
 				}
 			}else {
-				writer.println("<h1> Error on bed time: " + KataMain.isBedTime(bedTime,bedTimeAmPm) + "</h1>");
+				writer.println("<h1> Error on bed time: " + errorOrSequence(KataMain.isBedTime(bedTime,bedTimeAmPm), "bedtime must be after start time") + "</h1>");
 			}
 		}else {			
 			writer.println("<h1> Error on start time : " + KataMain.isStartTime(startTime,startTimeAmPm) + "</h1>");
@@ -57,14 +66,13 @@ public class KataServlet extends HttpServlet {
 		writer.close();
 	}	
 
-	public static int toMilitaryTime(int hour , String amPm) {    	
-    	if(amPm.equals("AM")){
-    		if(hour < 5) {
-    			hour += 12;
-    		}
-    	}   	
-    	return hour;
-    }
+	public static int toMilitaryTime(int hour , String amPm) {
+		return KataMain.toNightHour(hour, amPm);
+	}
+
+	private static String errorOrSequence(String validationError, String sequenceError) {
+		return validationError.isEmpty() ? sequenceError : validationError;
+	}
 	
     
 }
